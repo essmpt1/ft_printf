@@ -12,25 +12,25 @@
 
 #include "ft_printf.h"
 
-static int	ft_printf_format(char specifier, va_list args)
+static int	ft_printf_format(char specifier, va_list *args)
 {
 	int	count;
 
 	count = 0;
 	if (specifier == 'c')
-		count += ft_print_char(va_arg(args, int));
+		count += ft_print_char(va_arg(*args, int));
 	else if (specifier == 's')
-		count += ft_print_str(va_arg(args, char *));
+		count += ft_print_str(va_arg(*args, char *));
 	else if (specifier == 'p')
-		count += ft_print_pointer(va_arg(args, unsigned long));
+		count += ft_print_pointer(va_arg(*args, unsigned long));
 	else if (specifier == 'd' || specifier == 'i')
-		count += ft_print_digit((long)(va_arg(args, int)), 10, 0);
+		count += ft_print_digit((long)(va_arg(*args, int)), 10, 0);
 	else if (specifier == 'u')
-		count += ft_print_digit((long)(va_arg(args, unsigned int)), 10, 0);
+		count += ft_print_digit((long)(va_arg(*args, unsigned int)), 10, 0);
 	else if (specifier == 'x')
-		count += ft_print_digit((long)(va_arg(args, unsigned int)), 16, 0);
+		count += ft_print_digit((long)(va_arg(*args, unsigned int)), 16, 0);
 	else if (specifier == 'X')
-		count += ft_print_digit((long)(va_arg(args, unsigned int)), 16, 1);
+		count += ft_print_digit((long)(va_arg(*args, unsigned int)), 16, 1);
 	else
 		count += ft_print_char(specifier);
 	return (count);
@@ -50,7 +50,7 @@ int	ft_printf(const char *format, ...)
 	while (format[i] != '\0')
 	{
 		if (format[i] == '%')
-			count += ft_printf_format(format[++i], args);
+			count += ft_printf_format(format[++i], &args);
 		else
 			count += ft_print_char(format[i]);
 		i++;
